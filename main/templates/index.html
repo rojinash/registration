@@ -8,9 +8,9 @@
 </head>
 
 <body>
-    {% for message in messages %}
+    {% if request.session.register_error == True %} {% for message in messages %}
     <p>{{message}}</p>
-    {%endfor%}
+    {%endfor%} {%endif %}
     <h2>Please register below: </h2>
     <form action="/register" method="POST">
         {% csrf_token %}
@@ -41,6 +41,22 @@
         <button>Register!</button>
     </form>
 
+    <h2>Or Please login if you already have an account </h2>
+    {% if request.session.register_error == False%} {% for message in messages %}
+    <p>{{message}}</p>
+    {%endfor%} {%endif%}
+    <form action="/login" method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="">Username: </label>
+            <input type="text" name="username" id="">
+        </div>
+        <div>
+            <label for="">Password: </label>
+            <input type="password" name="password" id="">
+        </div>
+        <button>Login!</button>
+    </form>
 </body>
 
 </html>
