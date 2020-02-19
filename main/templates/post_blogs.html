@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Blog</title>
+</head>
+
+<body>
+    <h1>Welcome, {{current_user.first_name}}!</h1>
+    <button><a href="/logout">Logout!</a></button>
+    <h2>These are all the blogs you've created!</h2>
+    <table>
+        <thead>
+            <th>Title</th>
+            <th>Content</th>
+        </thead>
+        <tbody>
+            {%for blog in current_user.blogs.all %}
+            <tr>
+                <td>{{blog.title}}</td>
+                <td>{{blog.content}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <form action="/process_blog" method="POST">
+        {%csrf_token%}
+        <div>
+            <label for="">Title: </label>
+            <input type="text" name="title" id="">
+        </div>
+
+        <div>
+            <label for="">Content: </label>
+            <textarea name="content" id="" cols="30" rows="10"></textarea>
+        </div>
+        <button>Create Blog!</button>
+    </form>
+
+
+</body>
+
+</html>

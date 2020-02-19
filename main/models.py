@@ -1,5 +1,6 @@
 from django.db import models
 import re
+import bcrypt
 
 
 # Create your models here.
@@ -24,7 +25,14 @@ class UserManager(models.Manager):
             user_errors['confirm'] = 'Your passwords do not match. Try again'
         
         return user_errors
-
+    def login_validator(self, post_data):
+        errors={}
+        current_user_list = User.objects.filter(username=post_data['username'])
+        if len(current_user_list) < 1:
+            errors['username'] = 'This username does not exist. Please register instead'
+        elif not bcrypt.checkpw(post_data['password'].encode(), current_user_list[0].password.encode()):
+            errors['password'] = 'Incorrect password. Try again'
+        return errors
 
 class User(models.Model):
     first_name = models.CharField(max_length=255)
@@ -35,4 +43,12 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+
+class Blog(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    created_by = models.ForeignKey(User, related_name='blogs', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 

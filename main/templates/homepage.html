@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+
+<body>
+    <h1>Welcome, {{current_user.first_name}}</h1>
+    <h2>Blogs!</h2>
+
+    {% for blog in blogs %}
+    <h3>{{blog.title}}</h3>
+    <p>{{blog.content}}</p>
+    <h5>Posted by: <i>{{blog.created_by.first_name}} {{blog.created_by.last_name}}</i></h5>
+    {% endfor %}
+</body>
+
+</html>
